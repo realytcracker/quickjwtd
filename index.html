@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>quick jwt decoder</title>
+<style>
+textarea{width:300px; height:60px; display:block}
+</style>
+<body>
+<form id="form" action="parse">
+  <textarea name="jwt"></textarea>
+  <textarea name="out"></textarea>
+  <input type="submit" value="parse" />
+</form>
+<script type="text/javascript">
+let b64DecodeUnicode = str =>
+  decodeURIComponent(
+    Array.prototype.map.call(atob(str), c =>
+      '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+    ).join(''))
+
+let parseJwt = token =>
+  JSON.parse(
+    b64DecodeUnicode(
+      token.split('.')[1].replace('-', '+').replace('_', '/')
+    )
+  )
+
+
+let form = document.getElementById("form")
+form.addEventListener("submit", (e) => {
+   form.out.value = JSON.stringify(
+      parseJwt(form.jwt.value)
+   )
+   e.preventDefault();
+})
+</script>
+</body>
+</html>
