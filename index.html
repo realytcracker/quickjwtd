@@ -8,7 +8,7 @@ textarea{width:300px; height:60px; display:block}
 <form id="form" action="parse">
   <textarea name="jwt"></textarea>
   <textarea name="out"></textarea>
-  <input type="submit" value="parse" />
+  <input type="button" onclick="decodejwt()" value="parse" />
 </form>
 <script type="text/javascript">
 let b64DecodeUnicode = str =>
@@ -24,6 +24,8 @@ let parseJwt = token =>
     )
   )
 
+/*
+the old way with event listener
 
 let form = document.getElementById("form")
 form.addEventListener("submit", (e) => {
@@ -32,6 +34,15 @@ form.addEventListener("submit", (e) => {
    )
    e.preventDefault();
 })
+*/
+
+
+function decodejwt() {
+   let form = document.getElementById("form")
+   form.out.value = JSON.stringify(
+      parseJwt(form.jwt.value)
+   )
+}
 </script>
 </body>
 </html>
